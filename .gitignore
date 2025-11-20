@@ -1,0 +1,55 @@
+# ----------------------------------------------------------------------
+# Arquivos de Dependências e Build (Gerais)
+# ----------------------------------------------------------------------
+*/node_modules
+*/package-lock.json
+*/yarn.lock
+*/npm-debug.log
+
+# ----------------------------------------------------------------------
+# Backend (Pasta /server)
+# ----------------------------------------------------------------------
+# Pastas e arquivos de build do TypeScript
+/server/dist/
+/server/build/
+
+# Arquivos de configuração da IDE (se estiver usando VS Code)
+/.vscode/
+
+# ----------------------------------------------------------------------
+# Frontend (Pasta /web)
+# ----------------------------------------------------------------------
+# Saída de Build do Vite
+/web/dist/
+/web/build/
+
+# ----------------------------------------------------------------------
+# Variáveis de Ambiente e Dados Sensíveis
+# NÃO CONTAR NUNCA OS ARQUIVOS .env! (Requisito: usar .env.example)
+# ----------------------------------------------------------------------
+.env
+.env.*
+!.env.example
+# ----------------------------------------------------------------------
+# Bancos de Dados, Logs e Dados Temporários
+# ----------------------------------------------------------------------
+# Arquivos gerados pelo Drizzle (se você usar uma pasta específica)
+/server/drizzle/
+/server/migrations/
+/server/drizzle.sqlite
+
+# Logs
+*.log
+npm-debug.log*
+
+# Arquivos de dados de banco (se estiver usando sqlite local)
+*.db
+*.sqlite
+
+# ----------------------------------------------------------------------
+# Docker e Containerização
+# ----------------------------------------------------------------------
+# Contexto ignorado pelo Docker (se usar .dockerignore, pode omitir)
+.dockerignore
+!Dockerfile
+!docker-compose.yml
