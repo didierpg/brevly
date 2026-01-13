@@ -1,10 +1,12 @@
+import { env } from "@/env";
+import { db } from "@/infra/db";
 import fastify from "fastify";
 import "dotenv/config";
-import { env } from "@/env";
-
+import { sql } from "drizzle-orm";
 const app = fastify();
 
 app.get("/health", async (request, reply) => {
+  await db.execute(sql`SELECT 1`);
   return { status: "ok" };
 });
 
