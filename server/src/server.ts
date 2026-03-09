@@ -9,6 +9,7 @@ import {
 } from "fastify-type-provider-zod";
 import fastifySwagger from "@fastify/swagger";
 import fastifySwaggerUi from "@fastify/swagger-ui";
+import { createLinkRoute } from "./infra/http/routes/create-link";
 
 const app = fastify().withTypeProvider<ZodTypeProvider>();
 app.setValidatorCompiler(validatorCompiler);
@@ -28,6 +29,8 @@ app.register(fastifySwagger, {
 app.register(fastifySwaggerUi, {
   routePrefix: "/docs",
 });
+
+app.register(createLinkRoute);
 
 app.listen({ port: env.PORT }, (err, address) => {
   if (err) {
