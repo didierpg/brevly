@@ -1,14 +1,15 @@
 import { env } from "@/env";
-import { db } from "@/infra/db";
 import fastify from "fastify";
 import "dotenv/config";
-import { sql } from "drizzle-orm";
-const app = fastify();
+import {
+  serializerCompiler,
+  validatorCompiler,
+  ZodTypeProvider,
+} from "fastify-type-provider-zod";
 
-app.get("/health", async (request, reply) => {
-  await db.execute(sql`SELECT 1`);
-  return { status: "ok" };
-});
+const app = fastify().withTypeProvider<ZodTypeProvider>();
+app.setValidatorCompiler(validatorCompiler);
+app.setSerializerCompiler(serializerCompiler);
 
 app.listen({ port: env.PORT }, (err, address) => {
   if (err) {

@@ -17,6 +17,9 @@ importers:
       fastify:
         specifier: ^5.6.2
         version: 5.6.2
+      fastify-type-provider-zod:
+        specifier: ^6.1.0
+        version: 6.1.0(@fastify/swagger@9.6.1)(fastify@5.6.2)(openapi-types@12.1.3)(zod@4.1.13)
       postgres:
         specifier: ^3.4.7
         version: 3.4.7
@@ -32,7 +35,7 @@ importers:
         version: 0.31.8
       tsup:
         specifier: ^8.5.1
-        version: 8.5.1(tsx@4.21.0)(typescript@5.9.3)
+        version: 8.5.1(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.2)
       tsx:
         specifier: ^4.21.0
         version: 4.21.0
@@ -515,6 +518,9 @@ packages:
   '@fastify/proxy-addr@5.1.0':
     resolution: {integrity: sha512-INS+6gh91cLUjB+PVHfu1UqcB76Sqtpyp7bnL+FYojhjygvOPA9ctiD/JDKsyD9Xgu4hUhCSJBPig/w7duNajw==}
 
+  '@fastify/swagger@9.6.1':
+    resolution: {integrity: sha512-fKlpJqFMWoi4H3EdUkDaMteEYRCfQMEkK0HJJ0eaf4aRlKd8cbq0pVkOfXDXmtvMTXYcnx3E+l023eFDBsA1HA==}
+
   '@jridgewell/gen-mapping@0.3.13':
     resolution: {integrity: sha512-2kkt/7niJ6MgEPxF0bYdQ6etZaA+fQvDcLKckhy1yIQOzaoKjBBjSj63/aLVjYE3qhRt5dvM+uUyfCg6UKCBbA==}
 
@@ -856,6 +862,17 @@ packages:
   fast-uri@3.1.0:
     resolution: {integrity: sha512-iPeeDKJSWf4IEOasVVrknXpaBV0IApz/gp7S2bb7Z4Lljbl2MGJRqInZiUrQwV16cpzw/D3S5j5Julj/gT52AA==}
 
+  fastify-plugin@5.1.0:
+    resolution: {integrity: sha512-FAIDA8eovSt5qcDgcBvDuX/v0Cjz0ohGhENZ/wpc3y+oZCY2afZ9Baqql3g/lC+OHRnciQol4ww7tuthOb9idw==}
+
+  fastify-type-provider-zod@6.1.0:
+    resolution: {integrity: sha512-Sl19VZFSX4W/+AFl3hkL5YgWk3eDXZ4XYOdrq94HunK+o7GQBCAqgk7+3gPXoWkF0bNxOiIgfnFGJJ3i9a2BtQ==}
+    peerDependencies:
+      '@fastify/swagger': '>=9.5.1'
+      fastify: ^5.5.0
+      openapi-types: ^12.1.3
+      zod: '>=4.1.5'
+
   fastify@5.6.2:
     resolution: {integrity: sha512-dPugdGnsvYkBlENLhCgX8yhyGCsCPrpA8lFWbTNU428l+YOnLgYHR69hzV8HWPC79n536EqzqQtvhtdaCE0dKg==}
 
@@ -897,6 +914,10 @@ packages:
   json-schema-ref-resolver@3.0.0:
     resolution: {integrity: sha512-hOrZIVL5jyYFjzk7+y7n5JDzGlU8rfWDuYyHwGa2WA8/pcmMHezp2xsVwxrebD/Q9t8Nc5DboieySDpCp4WG4A==}
 
+  json-schema-resolver@3.0.0:
+    resolution: {integrity: sha512-HqMnbz0tz2DaEJ3ntsqtx3ezzZyDE7G56A/pPY/NGmrPu76UzsWquOpHFRAf5beTNXoH2LU5cQePVvRli1nchA==}
+    engines: {node: '>=20'}
+
   json-schema-traverse@1.0.0:
     resolution: {integrity: sha512-NM8/P9n3XjXhIZn1lLhkFaACTOURQXjWhV4BA/RnOv8xvgqtqpAX9IO4mRQxSx1Rlo4tqzeqb0sOlruaOy3dug==}
 
@@ -933,6 +954,9 @@ packages:
   on-exit-leak-free@2.1.2:
     resolution: {integrity: sha512-0eJJY6hXLGf1udHwfNftBqH+g73EU4B504nZeKpz1sYRKafAghwxEJunB2O7rDZkL4PGfsMVnTXZ2EjibbqcsA==}
     engines: {node: '>=14.0.0'}
+
+  openapi-types@12.1.3:
+    resolution: {integrity: sha512-N4YtSYJqghVu4iek2ZUvcN/0aqH1kRDuNqzcycDxhOUpg7GdvLa2F3DgS6yBNhInhv2r/6I0Flkn7CqL8+nIcw==}
 
   pathe@2.0.3:
     resolution: {integrity: sha512-WUjGcAqP1gQacoQe+OBJsFA7Ld4DyXuUIjZ5cc75cLHvJ7dtNsTugphxIADwspS+AraAUePCKrSVtPLFj/F88w==}
@@ -1130,6 +1154,11 @@ packages:
 
   undici-types@7.16.0:
     resolution: {integrity: sha512-Zz+aZWSj8LE6zoxD+xrjh4VfkIG8Ya6LvYkZqtUQGJPZjYl53ypCaUwWqo7eI0x66KBGeRo+mlBEkMSeSZ38Nw==}
+
+  yaml@2.8.2:
+    resolution: {integrity: sha512-mplynKqc1C2hTVYxd0PU2xQAc22TI1vShAYGksCCfxbn/dFwnHTNi1bvYsBTkhdUNtGIf5xNOg938rrSSYvS9A==}
+    engines: {node: '>= 14.6'}
+    hasBin: true
 
   zod@4.1.13:
     resolution: {integrity: sha512-AvvthqfqrAhNH9dnfmrfKzX5upOdjUVJYFqNSlkmGf64gRaTzlPwz99IHYnVs28qYAybvAlBV+H7pn0saFY4Ig==}
@@ -1392,6 +1421,16 @@ snapshots:
     dependencies:
       '@fastify/forwarded': 3.0.1
       ipaddr.js: 2.3.0
+
+  '@fastify/swagger@9.6.1':
+    dependencies:
+      fastify-plugin: 5.1.0
+      json-schema-resolver: 3.0.0
+      openapi-types: 12.1.3
+      rfdc: 1.4.1
+      yaml: 2.8.2
+    transitivePeerDependencies:
+      - supports-color
 
   '@jridgewell/gen-mapping@0.3.13':
     dependencies:
@@ -1656,6 +1695,16 @@ snapshots:
 
   fast-uri@3.1.0: {}
 
+  fastify-plugin@5.1.0: {}
+
+  fastify-type-provider-zod@6.1.0(@fastify/swagger@9.6.1)(fastify@5.6.2)(openapi-types@12.1.3)(zod@4.1.13):
+    dependencies:
+      '@fastify/error': 4.2.0
+      '@fastify/swagger': 9.6.1
+      fastify: 5.6.2
+      openapi-types: 12.1.3
+      zod: 4.1.13
+
   fastify@5.6.2:
     dependencies:
       '@fastify/ajv-compiler': 4.0.5
@@ -1709,6 +1758,14 @@ snapshots:
     dependencies:
       dequal: 2.0.3
 
+  json-schema-resolver@3.0.0:
+    dependencies:
+      debug: 4.4.3
+      fast-uri: 3.1.0
+      rfdc: 1.4.1
+    transitivePeerDependencies:
+      - supports-color
+
   json-schema-traverse@1.0.0: {}
 
   light-my-request@6.6.0:
@@ -1746,6 +1803,8 @@ snapshots:
 
   on-exit-leak-free@2.1.2: {}
 
+  openapi-types@12.1.3: {}
+
   pathe@2.0.3: {}
 
   picocolors@1.1.1: {}
@@ -1780,11 +1839,12 @@ snapshots:
       mlly: 1.8.0
       pathe: 2.0.3
 
-  postcss-load-config@6.0.1(tsx@4.21.0):
+  postcss-load-config@6.0.1(tsx@4.21.0)(yaml@2.8.2):
     dependencies:
       lilconfig: 3.1.3
     optionalDependencies:
       tsx: 4.21.0
+      yaml: 2.8.2
 
   postgres@3.4.7: {}
 
@@ -1900,7 +1960,7 @@ snapshots:
 
   ts-interface-checker@0.1.13: {}
 
-  tsup@8.5.1(tsx@4.21.0)(typescript@5.9.3):
+  tsup@8.5.1(tsx@4.21.0)(typescript@5.9.3)(yaml@2.8.2):
     dependencies:
       bundle-require: 5.1.0(esbuild@0.27.1)
       cac: 6.7.14
@@ -1911,7 +1971,7 @@ snapshots:
       fix-dts-default-cjs-exports: 1.0.1
       joycon: 3.1.1
       picocolors: 1.1.1
-      postcss-load-config: 6.0.1(tsx@4.21.0)
+      postcss-load-config: 6.0.1(tsx@4.21.0)(yaml@2.8.2)
       resolve-from: 5.0.0
       rollup: 4.53.3
       source-map: 0.7.6
@@ -1939,5 +1999,7 @@ snapshots:
   ufo@1.6.1: {}
 
   undici-types@7.16.0: {}
+
+  yaml@2.8.2: {}
 
   zod@4.1.13: {}
