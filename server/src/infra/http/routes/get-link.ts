@@ -1,7 +1,7 @@
 import { FastifyInstance } from "fastify";
 import { z } from "zod";
 import { makeGetLinkUseCase } from "@/main/factories/make-get-link-use-case";
-import { isLeft } from "@/infra/shared/either";
+import { isLeft } from "@/main/shared/either";
 
 export async function getLinkRoute(app: FastifyInstance) {
   app.get(

@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { GetLinkUseCase } from "./get-link";
-import { isRight, isLeft } from "@/infra/shared/either";
+import { isRight, isLeft } from "@/main/shared/either";
 
 const createDbMock = () =>
   ({

@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
-import { isLeft } from "@/infra/shared/either";
+import { isLeft } from "@/main/shared/either";
 import { makeCreateLinkUseCase } from "@/main/factories/make-create-link-use-case";
 
 export async function createLinkRoute(app: FastifyInstance) {

@@ -1,6 +1,6 @@
 import { schema } from "@/infra/db/schemas";
 import { links } from "@/infra/db/schemas/links";
-import { Either, makeLeft, makeRight } from "@/infra/shared/either";
+import { Either, makeLeft, makeRight } from "@/main/shared/either";
 import { eq, sql } from "drizzle-orm";
 import { PostgresJsDatabase } from "drizzle-orm/postgres-js";
 
