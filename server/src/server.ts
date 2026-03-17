@@ -12,6 +12,7 @@ import fastifySwaggerUi from "@fastify/swagger-ui";
 import { createLinkRoute } from "./infra/http/routes/create-link";
 import { getLinkRoute } from "./infra/http/routes/get-link";
 import { getLinksRoute } from "./infra/http/routes/get-links";
+import { deleteLinkRoute } from "./infra/http/routes/delete-link";
 
 const app = fastify().withTypeProvider<ZodTypeProvider>();
 app.setValidatorCompiler(validatorCompiler);
@@ -35,6 +36,7 @@ app.register(fastifySwaggerUi, {
 app.register(createLinkRoute);
 app.register(getLinkRoute);
 app.register(getLinksRoute);
+app.register(deleteLinkRoute);
 
 app.listen({ port: env.PORT }, (err, address) => {
   if (err) {
