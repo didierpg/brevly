@@ -10,13 +10,9 @@ export type Right<U> = {
 
 export type Either<T, U> = NonNullable<Left<T> | Right<U>>;
 
-export const isLeft = <T, U>(e: Either<T, U>): e is Left<T> => {
-  return e.left !== undefined;
-};
+export const isLeft = <T, U>(e: Either<T, U>): e is Left<T> => "left" in e;
 
-export const isRight = <T, U>(e: Either<T, U>): e is Right<U> => {
-  return e.right !== undefined;
-};
+export const isRight = <T, U>(e: Either<T, U>): e is Right<U> => "right" in e;
 
 export const makeLeft = <T>(value: T): Left<T> => ({ left: value });
 
