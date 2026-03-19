@@ -5,7 +5,7 @@ import { isLeft } from "@/main/shared/either";
 
 export async function getLinkRoute(app: FastifyInstance) {
   app.get(
-    "/:code",
+    "/links/:code",
     {
       schema: {
         params: z.object({

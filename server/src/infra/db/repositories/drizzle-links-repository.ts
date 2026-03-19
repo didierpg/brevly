@@ -5,7 +5,10 @@ import { links } from "../schemas/links";
 import { eq } from "drizzle-orm";
 
 export class DrizzleLinksRepository implements LinksRepository {
-  constructor(private db: any) {}
+  constructor(
+    private db: any,
+    private pg: any,
+  ) {}
 
   async save(link: Link): Promise<Link | null> {
     const persistenceLink = LinkMapper.toPersistence(link);
@@ -41,5 +44,21 @@ export class DrizzleLinksRepository implements LinksRepository {
 
   async delete(id: string): Promise<void> {
     await this.db.delete(links).where(eq(links.id, id));
+  }
+
+  findAllStream(): AsyncIterable<Link> {
+    const query = this.db
+      .select({
+        id: links.id,
+        originalUrl: links.originalUrl,
+        shortCode: links.shortCode,
+        accessCount: links.accessCount,
+        createdAt: links.createdAt,
+      })
+      .from(links)
+      .where()
+      .toSQL();
+
+    return this.pg.unsafe(query.sql, ...query.params).cursor();
   }
 }

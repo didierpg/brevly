@@ -13,6 +13,7 @@ import { createLinkRoute } from "./infra/http/routes/create-link";
 import { getLinkRoute } from "./infra/http/routes/get-link";
 import { getLinksRoute } from "./infra/http/routes/get-links";
 import { deleteLinkRoute } from "./infra/http/routes/delete-link";
+import { exportLinksRoute } from "./infra/http/routes/export-links";
 
 const app = fastify().withTypeProvider<ZodTypeProvider>();
 app.setValidatorCompiler(validatorCompiler);
@@ -37,6 +38,7 @@ app.register(createLinkRoute);
 app.register(getLinkRoute);
 app.register(getLinksRoute);
 app.register(deleteLinkRoute);
+app.register(exportLinksRoute);
 
 app.listen({ port: env.PORT }, (err, address) => {
   if (err) {
