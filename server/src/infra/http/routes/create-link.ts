@@ -11,7 +11,9 @@ export async function createLinkRoute(app: FastifyInstance) {
       schema: {
         summary: "Cria um novo link encurtado",
         body: z.object({
-          url: z.httpUrl("URL original inválida"),
+          url: z
+            .httpUrl("URL original inválida")
+            .default("https://www.example.com"),
           shortCode: z
             .string()
             .regex(

@@ -14,6 +14,8 @@ import { getLinkRoute } from "./infra/http/routes/get-link";
 import { getLinksRoute } from "./infra/http/routes/get-links";
 import { deleteLinkRoute } from "./infra/http/routes/delete-link";
 import { exportLinksRoute } from "./infra/http/routes/export-links";
+import fastifyCors from "@fastify/cors";
+import { runMigrations } from "./infra/db";
 
 const app = fastify().withTypeProvider<ZodTypeProvider>();
 app.setValidatorCompiler(validatorCompiler);
@@ -34,18 +36,32 @@ app.register(fastifySwaggerUi, {
   routePrefix: "/docs",
 });
 
+app.register(fastifyCors, {
+  origin: "*",
+});
+
 app.register(createLinkRoute);
 app.register(getLinkRoute);
 app.register(getLinksRoute);
 app.register(deleteLinkRoute);
 app.register(exportLinksRoute);
 
-app.listen({ port: env.PORT }, (err, address) => {
-  if (err) {
-    console.error(err);
+async function start() {
+  try {
+    await runMigrations();
+
+    const address = await app.listen({
+      port: env.PORT,
+      host: "0.0.0.0",
+    });
+
+    console.log(`🚀 Server listening at ${address}`);
+  } catch (err) {
+    app.log.error(err);
     process.exit(1);
   }
-  console.log(`Server listening at ${address}`);
-});
+}
+
+start();
 
 export default app;
