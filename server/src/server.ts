@@ -2,14 +2,38 @@ import { env } from "@/env";
 import fastify from "fastify";
 import "dotenv/config";
 import {
+  jsonSchemaTransform,
   serializerCompiler,
   validatorCompiler,
   ZodTypeProvider,
 } from "fastify-type-provider-zod";
+import fastifySwagger from "@fastify/swagger";
+import fastifySwaggerUi from "@fastify/swagger-ui";
+import fastifyCors from "@fastify/cors";
 
 const app = fastify().withTypeProvider<ZodTypeProvider>();
 app.setValidatorCompiler(validatorCompiler);
 app.setSerializerCompiler(serializerCompiler);
+
+app.register(fastifySwagger, {
+  openapi: {
+    info: {
+      title: "Brev.ly API",
+      description: "API do Encurtador de URLs da Pós-Graduação",
+      version: "1.0.0",
+    },
+  },
+  transform: jsonSchemaTransform,
+});
+
+app.register(fastifySwaggerUi, {
+  routePrefix: "/docs",
+});
+
+app.register(fastifyCors, {
+  origin: "*",
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+});
 
 async function start() {
   try {
@@ -19,6 +43,7 @@ async function start() {
     });
 
     console.log(`🚀 Server listening at ${address}`);
+    console.log(`📚 API docs available at ${address}/docs`);
   } catch (err) {
     app.log.error(err);
     process.exit(1);

@@ -11,6 +11,9 @@
     "build": "tsup src/server.ts --out-dir dist --format esm --target node20 --minify --clean"
   },
   "dependencies": {
+    "@fastify/cors": "^11.2.0",
+    "@fastify/swagger": "^9.7.0",
+    "@fastify/swagger-ui": "^5.2.5",
     "dotenv": "^17.2.3",
     "fastify": "^5.6.2",
     "fastify-type-provider-zod": "^6.1.0",
