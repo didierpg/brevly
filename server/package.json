@@ -7,7 +7,7 @@
   "type": "module",
   "main": "dist/server.js",
   "scripts": {
-    "dev": "tsx --env-file .env src/server.ts",
+    "dev": "docker compose up db -d && wait-on tcp:5432 && tsx --env-file .env src/server.ts",
     "build": "tsup src/server.ts --out-dir dist --format esm --target node20 --minify --clean"
   },
   "dependencies": {
@@ -23,6 +23,7 @@
     "@types/node": "^24.10.2",
     "tsup": "^8.5.1",
     "tsx": "^4.21.0",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "wait-on": "^9.0.4"
   }
 }
