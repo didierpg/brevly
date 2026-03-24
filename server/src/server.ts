@@ -10,6 +10,7 @@ import {
 import fastifySwagger from "@fastify/swagger";
 import fastifySwaggerUi from "@fastify/swagger-ui";
 import fastifyCors from "@fastify/cors";
+import { runMigrations } from "./infra/db";
 
 const app = fastify().withTypeProvider<ZodTypeProvider>();
 app.setValidatorCompiler(validatorCompiler);
@@ -37,6 +38,8 @@ app.register(fastifyCors, {
 
 async function start() {
   try {
+    await runMigrations();
+
     const address = await app.listen({
       port: env.PORT,
       host: "0.0.0.0",

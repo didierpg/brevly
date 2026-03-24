@@ -8,19 +8,25 @@
   "main": "dist/server.js",
   "scripts": {
     "dev": "docker compose up db -d && wait-on tcp:5432 && tsx --env-file .env src/server.ts",
-    "build": "tsup src/server.ts --out-dir dist --format esm --target node20 --minify --clean"
+    "build": "tsup src/server.ts --out-dir dist --format esm --target node20 --minify --clean",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
     "@fastify/cors": "^11.2.0",
     "@fastify/swagger": "^9.7.0",
     "@fastify/swagger-ui": "^5.2.5",
     "dotenv": "^17.2.3",
+    "drizzle-orm": "^0.45.1",
     "fastify": "^5.6.2",
     "fastify-type-provider-zod": "^6.1.0",
+    "postgres": "^3.4.7",
     "zod": "^4.1.13"
   },
   "devDependencies": {
     "@types/node": "^24.10.2",
+    "drizzle-kit": "^0.31.8",
     "tsup": "^8.5.1",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",

@@ -9,4 +9,9 @@ const envSchema = z.object({
   POSTGRES_DB: z.string(),
 });
 
-export const env = envSchema.parse(process.env);
+const parsedEnv = envSchema.parse(process.env);
+
+export const env = {
+  ...parsedEnv,
+  DATABASE_URL: `postgresql://${parsedEnv.POSTGRES_USER}:${parsedEnv.POSTGRES_PASSWORD}@${parsedEnv.POSTGRES_HOST}:5432/${parsedEnv.POSTGRES_DB}`,
+};

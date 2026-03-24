@@ -21,6 +21,7 @@ RUN npm install -g pnpm
 COPY --from=build /usr/src/app/dist ./dist
 COPY --from=build /usr/src/app/package.json ./package.json
 COPY --from=build /usr/src/app/pnpm-lock.yaml ./pnpm-lock.yaml
+COPY --from=build /usr/src/app/src/infra/db/migrations ./dist/migrations
 
 RUN pnpm install --prod --frozen-lockfile
 
