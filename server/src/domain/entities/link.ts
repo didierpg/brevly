@@ -2,6 +2,15 @@ import { z } from "zod";
 
 export const LinkSchema = z.object({
   id: z.uuid(),
+  originalUrl: z.url("Invalid URL format").default("https://example.com"),
+  shortCode: z
+    .string()
+    .min(3, "Min 3 characters")
+    .max(10, "Max 10 characters")
+    .regex(
+      /^[a-zA-Z0-9_-]+$/,
+      "Only letters, numbers, hyphens and underscores",
+    ),
   createdAt: z.date().default(() => new Date()),
 });
 
