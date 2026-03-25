@@ -1,10 +1,10 @@
 import { FastifyInstance } from "fastify";
 import { ZodTypeProvider } from "fastify-type-provider-zod";
-import { LinkSchema } from "@/domain/entities/link";
-import { createLinkUseCase } from "@/application/use-cases/create-link";
-import { PostgresLinkRepository } from "@/infra/db/repositories/postgres-link-repository";
 import { isLeft } from "@/core/either";
-import { LinkErrorSchema } from "../../../domain/errors/link-errors";
+import { PostgresLinkRepository } from "@/infra/db/repositories/postgres-link-repository";
+import { createLinkUseCase } from "@/application/use-cases/create-link";
+import { LinkErrorSchema } from "@/domain/errors/link-errors";
+import { LinkSchema } from "@/domain/entities/link";
 
 export async function createLinkRoute(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().post(

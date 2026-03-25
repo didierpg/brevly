@@ -1,7 +1,7 @@
 import { z } from "zod";
+import { Either, makeLeft, makeRight } from "@/core/either";
 import { Link, LinkSchema } from "@/domain/entities/link";
 import { LinkRepository } from "@/domain/repositories/link-repository";
-import { Either, makeLeft, makeRight } from "@/core/either";
 import { LinkErrors } from "@/domain/errors/link-errors";
 
 const CreateLinkSchema = LinkSchema.pick({
@@ -15,14 +15,14 @@ export const createLinkUseCase = (repository: LinkRepository) => {
   return async (
     data: CreateLinkInput,
   ): Promise<
-    Either<ReturnType<typeof LinkErrors.ShortCodeAlreadyInUseError>, Link>
+    Either<ReturnType<typeof LinkErrors.ShortCodeAlreadyInUse>, Link>
   > => {
     const { originalUrl, shortCode } = data;
 
     const alreadyExists = await repository.findByShortCode(shortCode);
 
     if (alreadyExists) {
-      return makeLeft(LinkErrors.ShortCodeAlreadyInUseError(shortCode));
+      return makeLeft(LinkErrors.ShortCodeAlreadyInUse(shortCode));
     }
 
     const link = LinkSchema.parse({

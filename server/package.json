@@ -9,6 +9,7 @@
   "scripts": {
     "dev": "docker compose up db -d && wait-on tcp:5432 && tsx --env-file .env src/server.ts",
     "build": "tsup src/server.ts --out-dir dist --format esm --target node20 --minify --clean",
+    "test": "vitest",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:studio": "drizzle-kit studio"
@@ -30,6 +31,8 @@
     "tsup": "^8.5.1",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
+    "vite-tsconfig-paths": "^6.1.1",
+    "vitest": "^4.0.18",
     "wait-on": "^9.0.4"
   }
 }
