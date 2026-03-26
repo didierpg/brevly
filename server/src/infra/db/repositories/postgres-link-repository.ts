@@ -2,7 +2,7 @@ import { Link } from "@/domain/entities/link";
 import { LinkRepository } from "@/domain/repositories/link-repository";
 import { db } from "..";
 import { links } from "../schemas/links";
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 
 export class PostgresLinkRepository implements LinkRepository {
   async create(link: Link): Promise<void> {
@@ -16,5 +16,19 @@ export class PostgresLinkRepository implements LinkRepository {
       .where(eq(links.shortCode, code));
 
     return link ?? null;
+  }
+
+  async findByShortCodeAndIncrementAccessCount(
+    shortCode: string,
+  ): Promise<string | null> {
+    const [link] = await db
+      .update(links)
+      .set({
+        accessCount: sql`${links.accessCount} + 1`,
+      })
+      .where(eq(links.shortCode, shortCode))
+      .returning({ originalUrl: links.originalUrl });
+
+    return link?.originalUrl ?? null;
   }
 }

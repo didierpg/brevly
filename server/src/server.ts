@@ -10,6 +10,7 @@ import {
 import fastifySwagger from "@fastify/swagger";
 import fastifySwaggerUi from "@fastify/swagger-ui";
 import { createLinkRoute } from "./infra/http/routes/create-link";
+import { resolveLinkRoute } from "./infra/http/routes/resolve-link";
 import fastifyCors from "@fastify/cors";
 import { runMigrations } from "./infra/db";
 
@@ -38,6 +39,7 @@ app.register(fastifyCors, {
 });
 
 app.register(createLinkRoute);
+app.register(resolveLinkRoute);
 
 async function start() {
   try {

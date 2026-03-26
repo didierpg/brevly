@@ -11,6 +11,7 @@ export const LinkSchema = z.object({
       /^[a-zA-Z0-9_-]+$/,
       "Only letters, numbers, hyphens and underscores",
     ),
+  accessCount: z.number().default(0),
   createdAt: z.date().default(() => new Date()),
 });
 
