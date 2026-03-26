@@ -12,4 +12,16 @@ export class InMemoryLinkRepository implements LinkRepository {
     const link = this.items.find((item) => item.shortCode === code);
     return link ?? null;
   }
+
+  async findByShortCodeAndIncrementAccessCount(
+    shortCode: string,
+  ): Promise<string | null> {
+    const index = this.items.findIndex((item) => item.shortCode === shortCode);
+
+    if (index === -1) return null;
+
+    this.items[index].accessCount += 1;
+
+    return this.items[index].originalUrl;
+  }
 }
