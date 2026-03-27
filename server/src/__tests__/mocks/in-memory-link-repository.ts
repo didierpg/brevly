@@ -24,4 +24,10 @@ export class InMemoryLinkRepository implements LinkRepository {
 
     return this.items[index].originalUrl;
   }
+
+  async findAll(): Promise<Link[]> {
+    return this.items.sort(
+      (a, b) => b.createdAt.getTime() - a.createdAt.getTime(),
+    );
+  }
 }
