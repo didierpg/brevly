@@ -12,6 +12,8 @@ export const resolveLinkRoute = (app: FastifyInstance) => {
     "/:shortCode",
     {
       schema: {
+        summary: "",
+        tags: ["links"],
         params: z.object({
           shortCode: LinkSchema.shape.shortCode,
         }),

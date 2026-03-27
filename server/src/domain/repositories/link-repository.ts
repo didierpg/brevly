@@ -6,4 +6,5 @@ export interface LinkRepository {
   findByShortCodeAndIncrementAccessCount(
     shortCode: string,
   ): Promise<string | null>;
+  findAll(): Promise<Link[]>;
 }

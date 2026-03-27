@@ -2,7 +2,7 @@ import { Link } from "@/domain/entities/link";
 import { LinkRepository } from "@/domain/repositories/link-repository";
 import { db } from "..";
 import { links } from "../schemas/links";
-import { eq, sql } from "drizzle-orm";
+import { desc, eq, sql } from "drizzle-orm";
 
 export class PostgresLinkRepository implements LinkRepository {
   async create(link: Link): Promise<void> {
@@ -30,5 +30,9 @@ export class PostgresLinkRepository implements LinkRepository {
       .returning({ originalUrl: links.originalUrl });
 
     return link?.originalUrl ?? null;
+  }
+
+  async findAll(): Promise<Link[]> {
+    return await db.select().from(links).orderBy(desc(links.createdAt));
   }
 }
