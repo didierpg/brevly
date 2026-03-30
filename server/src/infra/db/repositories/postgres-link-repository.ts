@@ -35,4 +35,9 @@ export class PostgresLinkRepository implements LinkRepository {
   async findAll(): Promise<Link[]> {
     return await db.select().from(links).orderBy(desc(links.createdAt));
   }
+
+  async delete(id: string): Promise<boolean> {
+    const result = await db.delete(links).where(eq(links.id, id)).returning();
+    return result.length > 0;
+  }
 }

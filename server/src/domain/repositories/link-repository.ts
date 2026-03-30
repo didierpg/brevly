@@ -7,4 +7,5 @@ export interface LinkRepository {
     shortCode: string,
   ): Promise<string | null>;
   findAll(): Promise<Link[]>;
+  delete(id: string): Promise<boolean>;
 }
