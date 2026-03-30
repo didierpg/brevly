@@ -30,4 +30,13 @@ export class InMemoryLinkRepository implements LinkRepository {
       (a, b) => b.createdAt.getTime() - a.createdAt.getTime(),
     );
   }
+
+  async delete(id: string): Promise<boolean> {
+    const index = this.items.findIndex((item) => item.id === id);
+
+    if (index === -1) return false;
+
+    this.items.splice(index, 1);
+    return true;
+  }
 }
