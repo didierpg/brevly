@@ -7,6 +7,11 @@ const envSchema = z.object({
   POSTGRES_PASSWORD: z.string(),
   POSTGRES_HOST: z.string().default("localhost"),
   POSTGRES_DB: z.string(),
+  CLOUDFLARE_ACCOUNT_ID: z.string(),
+  CLOUDFLARE_ACCESS_KEY_ID: z.string(),
+  CLOUDFLARE_SECRET_ACCESS_KEY: z.string(),
+  CLOUDFLARE_BUCKET: z.string(),
+  CLOUDFLARE_PUBLIC_URL: z.string(),
 });
 
 const parsedEnv = envSchema.parse(process.env);

@@ -13,6 +13,7 @@ import { createLinkRoute } from "./infra/http/routes/create-link";
 import { resolveLinkRoute } from "./infra/http/routes/resolve-link";
 import { listLinksRoute } from "./infra/http/routes/list-links";
 import { deleteLinkRoute } from "./infra/http/routes/delete-link";
+import { exportLinksRoute } from "./infra/http/routes/export-links";
 import fastifyCors from "@fastify/cors";
 import { runMigrations } from "./infra/db";
 
@@ -44,6 +45,7 @@ app.register(createLinkRoute);
 app.register(resolveLinkRoute);
 app.register(listLinksRoute);
 app.register(deleteLinkRoute);
+app.register(exportLinksRoute);
 
 async function start() {
   try {
