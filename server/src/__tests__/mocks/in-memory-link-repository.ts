@@ -39,4 +39,10 @@ export class InMemoryLinkRepository implements LinkRepository {
     this.items.splice(index, 1);
     return true;
   }
+
+  async *findAllStream(): AsyncIterable<Link> {
+    for (const item of this.items) {
+      yield item;
+    }
+  }
 }
