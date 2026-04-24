@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createLink, getLinks } from "../api/links";
+import { createLink, deleteLink, getLinks } from "../api/links";
 
 const createLinkFormSchema = z.object({
   originalUrl: z.url("Invalid URL format"),
@@ -60,6 +60,17 @@ export function Home() {
     navigator.clipboard.writeText(fullUrl);
     alert("Link copiado!");
   };
+
+  const { mutateAsync: deleteLinkFn, isPending: isDeleting } = useMutation({
+    mutationFn: deleteLink,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["links"] });
+      alert("Link removido com sucesso!");
+    },
+    onError: () => {
+      alert("Erro ao deletar o link. Tente novamente.");
+    },
+  });
   return (
     <div style={{ padding: "2rem", fontFamily: "sans-serif" }}>
       <h1>Novo link</h1>
@@ -178,11 +189,31 @@ export function Home() {
                   >
                     {link.accessCount} acessos
                   </span>
+
                   <button
                     onClick={() => handleCopy(link.shortCode)}
                     title="Copiar link"
+                    style={{ cursor: "pointer", padding: "4px" }}
                   >
                     Copiar
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      if (
+                        confirm("Tem certeza que deseja excluir este link?")
+                      ) {
+                        deleteLinkFn(link.id);
+                      }
+                    }}
+                    disabled={isDeleting}
+                    title="Excluir link"
+                    style={{
+                      cursor: isDeleting ? "not-allowed" : "pointer",
+                      padding: "4px",
+                    }}
+                  >
+                    {isDeleting ? "..." : "Deletar"}
                   </button>
                 </div>
               </div>
