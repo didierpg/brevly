@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { createLink, deleteLink, getLinks } from "../api/links";
+import { createLink, deleteLink, exportLinks, getLinks } from "../api/links";
 
 const createLinkFormSchema = z.object({
   originalUrl: z.url("Invalid URL format"),
@@ -71,6 +71,21 @@ export function Home() {
       alert("Erro ao deletar o link. Tente novamente.");
     },
   });
+
+  const { mutateAsync: handleExport, isPending: isExporting } = useMutation({
+    mutationFn: exportLinks,
+    onSuccess: (data) => {
+      const link = document.createElement("a");
+      link.href = data.publicUrl;
+      link.setAttribute("download", "");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    },
+    onError: () => {
+      alert("Erro ao gerar o arquivo de exportação.");
+    },
+  });
   return (
     <div style={{ padding: "2rem", fontFamily: "sans-serif" }}>
       <h1>Novo link</h1>
@@ -125,7 +140,9 @@ export function Home() {
       <section>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <h2>Meus links</h2>
-          <button disabled>Baixar CSV (Em breve)</button>
+          <button onClick={() => handleExport()} disabled={isExporting}>
+            {isExporting ? "Gerando CSV..." : "Exportar CSV"}
+          </button>
         </div>
 
         {isLoading && <p>Carregando links...</p>}
