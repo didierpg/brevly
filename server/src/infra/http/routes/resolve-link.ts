@@ -18,7 +18,7 @@ export const resolveLinkRoute = (app: FastifyInstance) => {
           shortCode: LinkSchema.shape.shortCode,
         }),
         response: {
-          302: z.null(),
+          200: z.object({ originalUrl: LinkSchema.shape.originalUrl }),
           404: LinkErrorSchema.describe(
             "Not Found - No link found for short code",
           ),
@@ -34,7 +34,7 @@ export const resolveLinkRoute = (app: FastifyInstance) => {
         return reply.status(404).send(result.left);
       }
 
-      return reply.status(302).redirect(result.right);
+      return reply.status(200).send({ originalUrl: result.right });
     },
   );
 };
