@@ -13,7 +13,7 @@ export function Button({
   ...props
 }: ButtonProps) {
   const baseStyles =
-    "p-2 rounded-sm font-semibold text-md transition-all flex items-center justify-center gap-2";
+    "p-2 rounded-sm font-semibold text-md transition-all flex items-center justify-center gap-2 cursor-pointer";
 
   const variants = {
     primary:

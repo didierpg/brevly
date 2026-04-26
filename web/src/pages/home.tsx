@@ -4,6 +4,7 @@ import * as z from "zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createLink, deleteLink, exportLinks, getLinks } from "../api/links";
 import { Button } from "../components/Button";
+import { Input } from "../components/Input";
 import {
   CopyIcon,
   DownloadIcon,
@@ -12,15 +13,12 @@ import {
 } from "@phosphor-icons/react";
 
 const createLinkFormSchema = z.object({
-  originalUrl: z.url("Invalid URL format"),
+  originalUrl: z.url("Informe uma URL válida."),
   shortCode: z
     .string()
-    .min(3, "Min 3 characters")
-    .max(10, "Max 10 characters")
-    .regex(
-      /^[a-zA-Z0-9_-]+$/,
-      "Only letters, numbers, hyphens and underscores",
-    ),
+    .min(3, "A partir de 3 caracteres.")
+    .max(10, "Até 10 caracteres.")
+    .regex(/^[a-zA-Z0-9_-]+$/, "Apenas letras, números, hífens e sublinhados."),
 });
 
 type CreateLinkFormSchema = z.infer<typeof createLinkFormSchema>;
@@ -112,31 +110,26 @@ export function Home() {
         }}
       >
         <div>
-          <label>Link Original</label>
-          <br />
-          <input
+          <Input
+            id="link"
+            label="Link Original"
             {...register("originalUrl")}
             placeholder="www.exemplo.com.br"
-            style={{ width: "100%" }}
+            error={errors.originalUrl?.message}
             defaultValue={"http://google.com"}
           />
-          {errors.originalUrl && (
-            <p style={{ color: "red" }}>{errors.originalUrl.message}</p>
-          )}
         </div>
 
         <div>
-          <label>Link Encurtado (brev.ly/)</label>
-          <br />
-          <input
-            {...register("shortCode")}
+          <Input
+            id="shorten"
+            label="Link Encurtado"
+            prefixText="brev.ly/"
             placeholder="meu-link"
-            style={{ width: "100%" }}
+            {...register("shortCode")}
+            error={errors.shortCode?.message}
             defaultValue={Math.random().toString(36).substring(2, 8)}
           />
-          {errors.shortCode && (
-            <p style={{ color: "red" }}>{errors.shortCode.message}</p>
-          )}
         </div>
 
         <Button
