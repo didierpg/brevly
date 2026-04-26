@@ -1,45 +1,35 @@
-// src/pages/not-found.tsx
+import notFoundImg from "../assets/404.svg";
+
 export function NotFound() {
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        height: "100vh",
-        textAlign: "center",
-        padding: "0 2rem",
-        fontFamily: "sans-serif",
-      }}
-    >
-      <h1 style={{ fontSize: "24px", color: "#333", marginBottom: "1rem" }}>
-        Link não encontrado
-      </h1>
+    <div className="h-screen flex items-center justify-center bg-gray-200 p-4">
+      <div className="flex flex-col items-center justify-center p-16 gap-6 bg-gray-100 rounded-lg w-full max-w-[580px]">
+        <div className="flex items-center justify-center">
+          <img
+            src={notFoundImg}
+            alt="Página não encontrada"
+            className="w-48.5 h-21.25"
+          />
+        </div>
 
-      <p style={{ color: "#666", lineHeight: "1.6", maxWidth: "400px" }}>
-        O link que você está tentando acessar não existe, foi removido ou é uma
-        URL inválida. Saiba mais em{" "}
-        <a href="/" style={{ color: "#2563eb", fontWeight: "bold" }}>
-          brev.ly
-        </a>
-        .
-      </p>
+        <div className="flex flex-col items-center gap-4 text-center w-full">
+          <h1 className="text-xl text-gray-600">Link não encontrado</h1>
 
-      <a
-        href="/"
-        style={{
-          marginTop: "2rem",
-          padding: "0.75rem 1.5rem",
-          backgroundColor: "#2563eb",
-          color: "white",
-          borderRadius: "8px",
-          textDecoration: "none",
-          fontWeight: "semibold",
-        }}
-      >
-        Voltar para a Home
-      </a>
+          <div className="flex flex-col gap-1">
+            <p className="text-md font-semibold text-gray-500 leading-relaxed">
+              O link que você está tentando acessar não existe, foi removido ou
+              é uma URL inválida. Saiba mais em
+              <a
+                href="/"
+                className="text-blue-base hover:underline font-semibold"
+              >
+                {" "}
+                brev.ly.
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
