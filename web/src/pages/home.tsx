@@ -3,6 +3,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createLink, deleteLink, exportLinks, getLinks } from "../api/links";
+import { Button } from "../components/Button";
+import {
+  CopyIcon,
+  DownloadIcon,
+  SpinnerIcon,
+  TrashIcon,
+} from "@phosphor-icons/react";
 
 const createLinkFormSchema = z.object({
   originalUrl: z.url("Invalid URL format"),
@@ -86,8 +93,13 @@ export function Home() {
       alert("Erro ao gerar o arquivo de exportação.");
     },
   });
+  const handleDelete = (id: string) => {
+    if (confirm("Tem certeza que deseja excluir este link?")) {
+      deleteLinkFn(id);
+    }
+  };
   return (
-    <div style={{ padding: "2rem", fontFamily: "sans-serif" }}>
+    <div style={{ padding: "2rem" }}>
       <h1>Novo link</h1>
 
       <form
@@ -127,22 +139,27 @@ export function Home() {
           )}
         </div>
 
-        <button
+        <Button
           type="submit"
           disabled={isPending}
           style={{ padding: "0.5rem", cursor: "pointer" }}
         >
           {isPending ? "Salvando..." : "Salvar link"}
-        </button>
+        </Button>
       </form>
       <hr style={{ margin: "2rem 0" }} />
 
       <section>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <h2>Meus links</h2>
-          <button onClick={() => handleExport()} disabled={isExporting}>
-            {isExporting ? "Gerando CSV..." : "Exportar CSV"}
-          </button>
+          <Button
+            variant="secondary"
+            onClick={() => handleExport()}
+            disabled={isExporting}
+          >
+            {isExporting ? <SpinnerIcon /> : <DownloadIcon />}
+            Baixar CSV
+          </Button>
         </div>
 
         {isLoading && <p>Carregando links...</p>}
@@ -207,31 +224,24 @@ export function Home() {
                     {link.accessCount} acessos
                   </span>
 
-                  <button
+                  <Button
+                    variant="secondary"
                     onClick={() => handleCopy(link.shortCode)}
                     title="Copiar link"
-                    style={{ cursor: "pointer", padding: "4px" }}
                   >
-                    Copiar
-                  </button>
+                    <CopyIcon />
+                  </Button>
 
-                  <button
+                  <Button
+                    variant="secondary"
                     onClick={() => {
-                      if (
-                        confirm("Tem certeza que deseja excluir este link?")
-                      ) {
-                        deleteLinkFn(link.id);
-                      }
+                      handleDelete(link.id);
                     }}
                     disabled={isDeleting}
                     title="Excluir link"
-                    style={{
-                      cursor: isDeleting ? "not-allowed" : "pointer",
-                      padding: "4px",
-                    }}
                   >
-                    {isDeleting ? "..." : "Deletar"}
-                  </button>
+                    {isDeleting ? <SpinnerIcon /> : <TrashIcon />}
+                  </Button>
                 </div>
               </div>
             </li>
