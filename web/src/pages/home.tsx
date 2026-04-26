@@ -6,10 +6,12 @@ import { createLink, deleteLink, exportLinks, getLinks } from "../api/links";
 import { Button } from "../components/Button";
 import { Input } from "../components/Input";
 import {
-  CopyIcon,
-  DownloadIcon,
-  SpinnerIcon,
+  CircleNotchIcon,
+  CopySimpleIcon,
+  DownloadSimpleIcon,
+  LinkIcon,
   TrashIcon,
+  WarningCircleIcon,
 } from "@phosphor-icons/react";
 
 const createLinkFormSchema = z.object({
@@ -59,6 +61,7 @@ export function Home() {
     queryKey: ["links"],
     queryFn: getLinks,
   });
+  const isEmpty = links?.length === 0;
 
   const handleCopy = (shortCode: string) => {
     const fullUrl = `${window.location.origin}/${shortCode}`;
@@ -98,148 +101,146 @@ export function Home() {
   };
   return (
     <div style={{ padding: "2rem" }}>
-      <h1>Novo link</h1>
+      <section className="flex flex-col gap-6 w-full ">
+        <h1>Novo link</h1>
 
-      <form
-        onSubmit={handleSubmit(handleCreateLink)}
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: "1rem",
-          maxWidth: "400px",
-        }}
-      >
-        <div>
-          <Input
-            id="link"
-            label="Link Original"
-            {...register("originalUrl")}
-            placeholder="www.exemplo.com.br"
-            error={errors.originalUrl?.message}
-            defaultValue={"http://google.com"}
-          />
-        </div>
-
-        <div>
-          <Input
-            id="shorten"
-            label="Link Encurtado"
-            prefixText="brev.ly/"
-            placeholder="meu-link"
-            {...register("shortCode")}
-            error={errors.shortCode?.message}
-            defaultValue={Math.random().toString(36).substring(2, 8)}
-          />
-        </div>
-
-        <Button
-          type="submit"
-          disabled={isPending}
-          style={{ padding: "0.5rem", cursor: "pointer" }}
+        <form
+          onSubmit={handleSubmit(handleCreateLink)}
+          className="flex flex-col gap-1 max-w-100"
         >
-          {isPending ? "Salvando..." : "Salvar link"}
-        </Button>
-      </form>
-      <hr style={{ margin: "2rem 0" }} />
+          <div>
+            <Input
+              id="link"
+              label="Link Original"
+              {...register("originalUrl")}
+              placeholder="www.exemplo.com.br"
+              error={errors.originalUrl?.message}
+              defaultValue={"http://google.com"}
+            />
+          </div>
 
-      <section>
-        <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <h2>Meus links</h2>
+          <div>
+            <Input
+              id="shorten"
+              label="Link Encurtado"
+              prefixText="brev.ly/"
+              placeholder="meu-link"
+              {...register("shortCode")}
+              error={errors.shortCode?.message}
+              defaultValue={Math.random().toString(36).substring(2, 8)}
+            />
+          </div>
+
+          <Button type="submit" disabled={isPending}>
+            {isPending ? "Salvando..." : "Salvar link"}
+          </Button>
+        </form>
+      </section>
+      <section className="flex flex-col gap-6 w-full ">
+        <div className="flex items-center justify-between">
+          <h2 className="text-md font-bold text-gray-500 uppercase tracking-wider">
+            Meus links
+          </h2>
           <Button
             variant="secondary"
             onClick={() => handleExport()}
             disabled={isExporting}
+            className="text-sm h-8"
           >
-            {isExporting ? <SpinnerIcon /> : <DownloadIcon />}
+            {isExporting ? (
+              <CircleNotchIcon className="animate-spin" />
+            ) : (
+              <DownloadSimpleIcon size={16} />
+            )}
             Baixar CSV
           </Button>
         </div>
 
-        {isLoading && <p>Carregando links...</p>}
-
-        {isError && <p style={{ color: "red" }}>Erro ao carregar a lista.</p>}
-
-        {!isLoading && links?.length === 0 && (
-          <p style={{ color: "gray", fontStyle: "italic" }}>
-            ainda não existem links cadastrados
-          </p>
+        {isLoading && (
+          <div className="flex flex-col items-center justify-center py-10 gap-2">
+            <CircleNotchIcon
+              size={32}
+              className="animate-spin text-blue-base"
+            />
+            <span className="text-sm text-gray-400">Carregando links...</span>
+          </div>
         )}
 
-        <ul style={{ listStyle: "none", padding: 0 }}>
-          {links?.map((link) => (
-            <li
-              key={link.id}
-              style={{
-                border: "1px solid #eee",
-                borderRadius: "8px",
-                padding: "1rem",
-                marginBottom: "1rem",
-                display: "flex",
-                flexDirection: "column",
-                gap: "0.5rem",
-              }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "flex-start",
-                }}
+        {isError && (
+          <div className="p-4 rounded-lg bg-danger/10 border border-danger/20 flex items-center gap-3">
+            <WarningCircleIcon size={20} className="text-danger" />
+            <span className="text-sm text-danger font-medium">
+              Erro ao carregar a lista.
+            </span>
+          </div>
+        )}
+
+        {!isLoading && isEmpty && (
+          <div className="flex flex-col items-center justify-center py-12 border-2 border-dashed border-gray-100 rounded-xl">
+            <LinkIcon size={40} weight="thin" className="text-gray-400 mb-2" />
+            <p className="text-xs uppercase text-gray-400">
+              Ainda não existem links cadastrados
+            </p>
+          </div>
+        )}
+        <div className="flex-1 overflow-y-auto pr-2 custom-scrollbar h-[calc(100vh-200px)]">
+          <ul className="flex flex-col">
+            {links?.map((link) => (
+              <li
+                key={link.id}
+                className="group flex flex-col gap-2 py-5 border-t border-gray-200 hover:bg-gray-50/50 transition-colors"
               >
-                <div>
-                  <a
-                    href={`/${link.shortCode}`}
-                    target="_blank"
-                    rel="noreferrer"
-                    style={{
-                      fontWeight: "bold",
-                      color: "#2563eb",
-                      textDecoration: "none",
-                    }}
-                  >
-                    brev.ly/{link.shortCode}
-                  </a>
-                  <p
-                    style={{ margin: "4px 0", fontSize: "14px", color: "#666" }}
-                  >
-                    {link.originalUrl}
-                  </p>
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex flex-col overflow-hidden">
+                    <a
+                      href={`/${link.shortCode}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-md font-bold text-blue-base hover:underline truncate"
+                    >
+                      brev.ly/{link.shortCode}
+                    </a>
+                    <p className="text-sm text-gray-400 truncate mt-1">
+                      {link.originalUrl}
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-3 shrink-0">
+                    <span className="text-sm text-gray-500 font-medium whitespace-nowrap">
+                      {link.accessCount} acessos
+                    </span>
+
+                    {/* Ações usando nosso Button flexível */}
+                    <div className="flex items-center gap-2">
+                      <Button
+                        variant="secondary"
+                        onClick={() => handleCopy(link.shortCode)}
+                        className="w-9 h-9 p-0" // Estilo IconButton sem precisar de novo componente
+                        title="Copiar link"
+                      >
+                        <CopySimpleIcon size={18} />
+                      </Button>
+
+                      <Button
+                        variant="secondary"
+                        onClick={() => handleDelete(link.id)}
+                        disabled={isDeleting}
+                        className="w-9 h-9 p-0 hover:text-danger hover:ring-danger"
+                        title="Excluir link"
+                      >
+                        {isDeleting ? (
+                          <CircleNotchIcon className="animate-spin" />
+                        ) : (
+                          <TrashIcon size={18} />
+                        )}
+                      </Button>
+                    </div>
+                  </div>
                 </div>
-
-                <div style={{ display: "flex", gap: "8px" }}>
-                  <span
-                    style={{
-                      fontSize: "12px",
-                      color: "#999",
-                      alignSelf: "center",
-                    }}
-                  >
-                    {link.accessCount} acessos
-                  </span>
-
-                  <Button
-                    variant="secondary"
-                    onClick={() => handleCopy(link.shortCode)}
-                    title="Copiar link"
-                  >
-                    <CopyIcon />
-                  </Button>
-
-                  <Button
-                    variant="secondary"
-                    onClick={() => {
-                      handleDelete(link.id);
-                    }}
-                    disabled={isDeleting}
-                    title="Excluir link"
-                  >
-                    {isDeleting ? <SpinnerIcon /> : <TrashIcon />}
-                  </Button>
-                </div>
-              </div>
-            </li>
-          ))}
-        </ul>
+              </li>
+            ))}
+          </ul>
+        </div>
       </section>
     </div>
   );
