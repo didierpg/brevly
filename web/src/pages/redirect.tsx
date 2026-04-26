@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { resolveLink } from "../api/links";
+import linkImg from "../assets/Logo_Icon.svg";
 
 export function Redirect() {
   const { shortCode } = useParams<{ shortCode: string }>();
@@ -28,25 +29,32 @@ export function Redirect() {
   }, [data, isError, navigate]);
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        height: "100vh",
-        textAlign: "center",
-        fontFamily: "sans-serif",
-      }}
-    >
-      <h1>Redirecionando...</h1>
-      <p>O link será aberto automaticamente em alguns instantes.</p>
+    <div className="h-screen flex items-center justify-center bg-gray-200 p-4">
+      <div className="flex flex-col items-center justify-center p-12 md:p-16 gap-6 bg-gray-100 rounded-lg w-full max-w-[580px]">
+        <div className="flex items-center justify-center mb-2">
+          <img src={linkImg} alt="brev.ly" className="h-12 w-auto" />
+        </div>
 
-      {data?.originalUrl && (
-        <p style={{ marginTop: "1rem", fontSize: "14px" }}>
-          Não foi redirecionado? <a href={data.originalUrl}>Acesse aqui</a>
-        </p>
-      )}
+        <div className="flex flex-col items-center gap-4 text-center">
+          <h1 className="text-xl text-gray-600">Redirecionando...</h1>
+
+          <div className="flex flex-col gap-1">
+            <p className="text-md font-semibold text-gray-500 leading-relaxed">
+              O link será aberto automaticamente em alguns instantes.
+            </p>
+
+            <p className="text-md font-semibold text-gray-500">
+              Não foi redirecionado?{" "}
+              <a
+                href={data?.originalUrl || "#"}
+                className="text-blue-base hover:underline cursor-pointer"
+              >
+                Acesse aqui
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
