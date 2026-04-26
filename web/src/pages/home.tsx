@@ -100,13 +100,12 @@ export function Home() {
     }
   };
   return (
-    <div style={{ padding: "2rem" }}>
-      <section className="flex flex-col gap-6 w-full ">
-        <h1>Novo link</h1>
-
+    <div className="h-screen flex flex-col p-8 gap-12 overflow-hidden">
+      <section className="flex flex-col gap-6 w-full max-w-xl">
+        <h2 className="text-lg font-bold  tracking-wider">Novo link</h2>
         <form
           onSubmit={handleSubmit(handleCreateLink)}
-          className="flex flex-col gap-1 max-w-100"
+          className="flex flex-col gap-1"
         >
           <div>
             <Input
@@ -136,11 +135,9 @@ export function Home() {
           </Button>
         </form>
       </section>
-      <section className="flex flex-col gap-6 w-full ">
+      <section className="flex flex-col gap-6 w-full max-w-xl flex-1 min-h-0">
         <div className="flex items-center justify-between">
-          <h2 className="text-md font-bold text-gray-500 uppercase tracking-wider">
-            Meus links
-          </h2>
+          <h2 className="text-lg font-bold  tracking-wider">Meus links</h2>
           <Button
             variant="secondary"
             onClick={() => handleExport()}
@@ -155,7 +152,6 @@ export function Home() {
             Baixar CSV
           </Button>
         </div>
-
         {isLoading && (
           <div className="flex flex-col items-center justify-center py-10 gap-2">
             <CircleNotchIcon
@@ -165,7 +161,6 @@ export function Home() {
             <span className="text-sm text-gray-400">Carregando links...</span>
           </div>
         )}
-
         {isError && (
           <div className="p-4 rounded-lg bg-danger/10 border border-danger/20 flex items-center gap-3">
             <WarningCircleIcon size={20} className="text-danger" />
@@ -174,7 +169,6 @@ export function Home() {
             </span>
           </div>
         )}
-
         {!isLoading && isEmpty && (
           <div className="flex flex-col items-center justify-center py-12 border-2 border-dashed border-gray-100 rounded-xl">
             <LinkIcon size={40} weight="thin" className="text-gray-400 mb-2" />

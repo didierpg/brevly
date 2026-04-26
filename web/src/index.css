@@ -43,3 +43,28 @@
     @apply bg-white text-gray-500 font-sans antialiased;
   }
 }
+
+@layer utilities {
+  .custom-scrollbar {
+    /* 1. Definimos a largura mais robusta */
+    &::-webkit-scrollbar {
+      width: 16px;
+    }
+
+    /* 2. O trilho (track) pode ter um leve tom para não ficar vazio */
+    &::-webkit-scrollbar-track {
+      background: var(--color-gray-100);
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: var(--color-blue-base);
+      border-radius: 0;
+
+      border: 2px solid var(--color-gray-100);
+
+      &:hover {
+        background: var(--color-blue-dark);
+      }
+    }
+  }
+}
