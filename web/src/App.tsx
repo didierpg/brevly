@@ -2,6 +2,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Home } from "./pages/home";
 import { Redirect } from "./pages/redirect";
 import { NotFound } from "./pages/not-found";
+import { ToastContainer } from "./components/ToastContainer";
 
 const router = createBrowserRouter([
   {
@@ -23,5 +24,10 @@ const router = createBrowserRouter([
 ]);
 
 export function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <RouterProvider router={router} />
+      <ToastContainer />
+    </>
+  );
 }

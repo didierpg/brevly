@@ -14,6 +14,7 @@ import {
   WarningCircleIcon,
 } from "@phosphor-icons/react";
 import logoImg from "../assets/Logo.svg";
+import { useToastStore } from "../store/useToastStore";
 
 const createLinkFormSchema = z.object({
   originalUrl: z.url("Informe uma URL válida."),
@@ -29,6 +30,8 @@ type CreateLinkFormSchema = z.infer<typeof createLinkFormSchema>;
 export function Home() {
   const queryClient = useQueryClient();
 
+  const addToast = useToastStore((state) => state.addToast);
+
   const {
     register,
     handleSubmit,
@@ -43,10 +46,18 @@ export function Home() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["links"] });
       reset();
-      alert("Link criado!");
+      addToast({
+        type: "success",
+        title: "Link criado!",
+        description: `O link foi criado com sucesso. `,
+      });
     },
     onError: (error: any) => {
-      alert(error.response?.data?.message || "Erro ao criar link");
+      addToast({
+        type: "error",
+        title: "Erro ao criar link",
+        description: error.response?.data?.message,
+      });
     },
   });
 
@@ -67,23 +78,42 @@ export function Home() {
   const handleCopy = (shortCode: string) => {
     const fullUrl = `${window.location.origin}/${shortCode}`;
     navigator.clipboard.writeText(fullUrl);
-    alert("Link copiado!");
+
+    addToast({
+      type: "info",
+      title: "Link copiado com sucesso",
+      description: `O link ${shortCode} foi copiado para a área de transferência.`,
+    });
   };
 
   const { mutateAsync: deleteLinkFn, isPending: isDeleting } = useMutation({
     mutationFn: deleteLink,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["links"] });
-      alert("Link removido com sucesso!");
+      addToast({
+        type: "success",
+        title: "Link removido",
+        description: `O link foi removido com sucesso. `,
+      });
     },
-    onError: () => {
-      alert("Erro ao deletar o link. Tente novamente.");
+    onError: (error: any) => {
+      addToast({
+        type: "error",
+        title: "Erro ao deletar o link",
+        description: error.response?.data?.message,
+      });
     },
   });
 
   const { mutateAsync: handleExport, isPending: isExporting } = useMutation({
     mutationFn: exportLinks,
     onSuccess: (data) => {
+      addToast({
+        type: "success",
+        title: "Exportação concluída",
+        description: "Seu arquivo CSV foi gerado com sucesso.",
+      });
+
       const link = document.createElement("a");
       link.href = data.publicUrl;
       link.setAttribute("download", "");
@@ -91,8 +121,12 @@ export function Home() {
       link.click();
       document.body.removeChild(link);
     },
-    onError: () => {
-      alert("Erro ao gerar o arquivo de exportação.");
+    onError: (error: any) => {
+      addToast({
+        type: "error",
+        title: "Erro na exportação",
+        description: error.response?.data?.message,
+      });
     },
   });
   const handleDelete = (id: string) => {
@@ -152,7 +186,7 @@ export function Home() {
               className="text-sm h-8"
             >
               {isExporting ? (
-                <CircleNotchIcon className="animate-spin" />
+                <CircleNotchIcon size={16} className="animate-spin" />
               ) : (
                 <DownloadSimpleIcon size={16} />
               )}

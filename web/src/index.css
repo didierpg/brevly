@@ -11,6 +11,7 @@
   --color-gray-500: #4d505c;
   --color-gray-600: #1f2025;
 
+  --color-success: #2cb16d;
   --color-danger: #b12c4d;
 
   --font-sans: "Open Sans", ui-sans-serif, system-ui;
@@ -66,5 +67,19 @@
         background: var(--color-blue-dark);
       }
     }
+  }
+  @keyframes toast-in {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  .animate-toast-in {
+    animation: toast-in 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   }
 }
