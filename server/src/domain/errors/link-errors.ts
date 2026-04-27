@@ -7,9 +7,6 @@ export const LinkErrors = {
   LinkNotFoundByShortCode: (shortCode: string) => ({
     message: `No link found for short code "${shortCode}".`,
   }),
-  LinkNotFoundById: (id: string) => ({
-    message: `No link found for id "${id}".`,
-  }),
 } as const;
 
 export const LinkErrorSchema = z.object({

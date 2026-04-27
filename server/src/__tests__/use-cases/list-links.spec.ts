@@ -16,19 +16,19 @@ describe("", () => {
     const baseLink = {
       id: "any-id",
       originalUrl: "https://google.com",
-      shortCode: "goog",
+      shortCode: "any-code",
       accessCount: 0,
       createdAt: new Date(),
     };
 
     await repository.create({
       ...baseLink,
-      id: "1",
+      shortCode: "code-1",
       createdAt: new Date("2026-03-20"),
     });
     await repository.create({
       ...baseLink,
-      id: "2",
+      shortCode: "code-2",
       createdAt: new Date("2026-03-25"),
     });
 
@@ -37,7 +37,7 @@ describe("", () => {
     expect(isRight(result)).toBe(true);
     if (isRight(result)) {
       expect(result.right).toHaveLength(2);
-      expect(result.right[0].id).toBe("2");
+      expect(result.right[0].shortCode).toBe("code-2");
     }
   });
 });

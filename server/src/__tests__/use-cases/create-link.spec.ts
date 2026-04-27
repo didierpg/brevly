@@ -22,7 +22,7 @@ describe("Create Link Use Case", () => {
     expect(isRight(result)).toBe(true);
 
     if (isRight(result)) {
-      expect(result.right.id).toBeDefined();
+      expect(result.right.shortCode).toBeDefined();
       expect(repository.items).toHaveLength(1);
       expect(repository.items[0].shortCode).toBe("google");
     }

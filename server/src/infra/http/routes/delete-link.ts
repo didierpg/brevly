@@ -9,30 +9,32 @@ import z from "zod";
 
 export const deleteLinkRoute = (app: FastifyInstance) => {
   app.withTypeProvider<ZodTypeProvider>().delete(
-    "/links/:id",
+    "/links/:shortCode",
     {
       schema: {
-        summary: "Delete a link by idetifier",
+        summary: "Delete a link by short code",
         tags: ["links"],
         params: z.object({
-          id: LinkSchema.shape.id,
+          shortCode: LinkSchema.shape.shortCode,
         }),
         response: {
           204: z.null(),
-          404: LinkErrorSchema.describe("Not Found - No link found for id"),
+          404: LinkErrorSchema.describe(
+            "Not Found - No link found for short code",
+          ),
         },
       },
     },
     async (request, reply) => {
-      const { id } = request.params;
+      const { shortCode } = request.params;
 
       const repository = new PostgresLinkRepository();
       const execute = deleteLinkUseCase(repository);
-      const result = await execute(id);
+      const result = await execute(shortCode);
       if (isLeft(result)) {
         return reply
           .status(404)
-          .send({ message: `Link not found for id ${id}` });
+          .send({ message: `Link not found for short code ${shortCode}` });
       }
 
       return reply.status(204).send();

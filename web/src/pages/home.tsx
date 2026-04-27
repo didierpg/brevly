@@ -130,9 +130,9 @@ export function Home() {
       });
     },
   });
-  const handleDelete = (id: string) => {
+  const handleDelete = (shortCode: string) => {
     if (confirm("Tem certeza que deseja excluir este link?")) {
-      deleteLinkFn(id);
+      deleteLinkFn(shortCode);
     }
   };
   return (
@@ -235,7 +235,7 @@ export function Home() {
               <ul className="flex flex-col">
                 {links?.map((link) => (
                   <li
-                    key={link.id}
+                    key={link.shortCode}
                     className="group flex flex-col gap-2 py-5 border-t border-gray-200 hover:bg-gray-50/50 transition-colors"
                   >
                     <div className="flex items-start justify-between gap-4">
@@ -270,7 +270,7 @@ export function Home() {
 
                           <Button
                             variant="secondary"
-                            onClick={() => handleDelete(link.id)}
+                            onClick={() => handleDelete(link.shortCode)}
                             disabled={isDeleting}
                             className="w-9 h-9 p-0 hover:text-danger hover:ring-danger"
                             title="Excluir link"

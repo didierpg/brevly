@@ -2,7 +2,6 @@
 import { api } from "../lib/axios";
 
 export interface Link {
-  id: string;
   originalUrl: string;
   shortCode: string;
   createdAt: string;
@@ -24,8 +23,8 @@ export async function createLink(data: CreateLinkInput) {
   return response.data;
 }
 
-export async function deleteLink(linkId: string) {
-  await api.delete(`/links/${linkId}`);
+export async function deleteLink(shortCode: string) {
+  await api.delete(`/links/${shortCode}`);
 }
 
 export async function resolveLink(shortCode: string) {

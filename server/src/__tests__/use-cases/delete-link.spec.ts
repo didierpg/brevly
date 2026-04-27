@@ -1,7 +1,7 @@
 import { deleteLinkUseCase } from "@/application/use-cases/delete-link";
 import { beforeEach, describe, expect, it } from "vitest";
 import { InMemoryLinkRepository } from "@/__tests__/mocks/in-memory-link-repository";
-import { isLeft, isRight, unwrapEither } from "@/core/either";
+import { isLeft, isRight } from "@/core/either";
 import { LinkErrors } from "@/domain/errors/link-errors";
 
 describe("Unit tests for delete link endpoint", () => {
@@ -22,7 +22,7 @@ describe("Unit tests for delete link endpoint", () => {
   });
 
   it("should remove a link from the links", async () => {
-    const result = await sut("link-id");
+    const result = await sut("short-code");
     expect(isRight(result)).toBeTruthy();
     expect(repository.items).toHaveLength(0);
   });
@@ -31,7 +31,7 @@ describe("Unit tests for delete link endpoint", () => {
     const result = await sut("unexistent-link");
     expect(isLeft(result)).toBeTruthy();
     expect(result.left).toStrictEqual(
-      LinkErrors.LinkNotFoundById("unexistent-link"),
+      LinkErrors.LinkNotFoundByShortCode("unexistent-link"),
     );
   });
 });

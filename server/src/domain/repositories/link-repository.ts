@@ -7,6 +7,6 @@ export interface LinkRepository {
     shortCode: string,
   ): Promise<string | null>;
   findAll(): Promise<Link[]>;
-  delete(id: string): Promise<boolean>;
+  delete(shortCode: string): Promise<boolean>;
   findAllStream(): AsyncIterable<Link>;
 }

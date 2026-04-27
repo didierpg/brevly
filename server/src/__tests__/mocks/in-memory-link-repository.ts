@@ -31,8 +31,8 @@ export class InMemoryLinkRepository implements LinkRepository {
     );
   }
 
-  async delete(id: string): Promise<boolean> {
-    const index = this.items.findIndex((item) => item.id === id);
+  async delete(shortCode: string): Promise<boolean> {
+    const index = this.items.findIndex((item) => item.shortCode === shortCode);
 
     if (index === -1) return false;
 

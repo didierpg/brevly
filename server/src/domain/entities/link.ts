@@ -1,7 +1,6 @@
 import { z } from "zod";
 
 export const LinkSchema = z.object({
-  id: z.uuid(),
   originalUrl: z.url("Invalid URL format").default("https://example.com"),
   shortCode: z
     .string()
