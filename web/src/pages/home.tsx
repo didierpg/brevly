@@ -176,108 +176,117 @@ export function Home() {
           </form>
         </section>
 
-        <section className="w-full max-w-2xl flex-1 flex flex-col bg-white p-6 rounded-lg border border-gray-200 min-h-0 self-stretch">
-          <div className="flex items-center justify-between mb-6 shrink-0">
-            <h2 className="text-lg ">Meus links</h2>
-            <Button
-              variant="secondary"
-              onClick={() => handleExport()}
-              disabled={isExporting}
-              className="text-sm h-8"
-            >
-              {isExporting ? (
-                <CircleNotchIcon size={16} className="animate-spin" />
-              ) : (
-                <DownloadSimpleIcon size={16} />
-              )}
-              Baixar CSV
-            </Button>
-          </div>
+        <section className="w-full max-w-2xl flex-1 flex flex-col bg-white rounded-lg border border-gray-200 min-h-0 self-stretch overflow-hidden relative">
           {isLoading && (
-            <div className="flex flex-col items-center justify-center py-10 gap-2">
-              <CircleNotchIcon
-                size={32}
-                className="animate-spin text-blue-base"
-              />
-              <span className="text-sm text-gray-400">Carregando links...</span>
+            <div className="absolute top-0 left-0 w-full h-1 bg-gray-100 overflow-hidden shrink-0">
+              <div className="h-full w-1/3 bg-blue-base animate-progress-slide" />
             </div>
           )}
-          {isError && (
-            <div className="p-4 rounded-lg bg-danger/10 border border-danger/20 flex items-center gap-3">
-              <WarningCircleIcon size={20} className="text-danger" />
-              <span className="text-sm text-danger font-medium">
-                Erro ao carregar a lista.
-              </span>
+          <div className="p-6 flex flex-col flex-1 min-h-0">
+            <div className="flex items-center justify-between mb-6 shrink-0">
+              <h2 className="text-lg ">Meus links</h2>
+              <Button
+                variant="secondary"
+                onClick={() => handleExport()}
+                disabled={isExporting}
+                className="text-sm h-8"
+              >
+                {isExporting ? (
+                  <CircleNotchIcon size={16} className="animate-spin" />
+                ) : (
+                  <DownloadSimpleIcon size={16} />
+                )}
+                Baixar CSV
+              </Button>
             </div>
-          )}
-          {!isLoading && isEmpty && (
-            <div className="flex flex-col items-center justify-center py-12 border-2 border-dashed border-gray-100 rounded-lg">
-              <LinkIcon
-                size={40}
-                weight="thin"
-                className="text-gray-400 mb-2"
-              />
-              <p className="text-xs uppercase text-gray-400">
-                Ainda não existem links cadastrados
-              </p>
-            </div>
-          )}
-          <div className="flex-1 overflow-y-auto pr-2 custom-scrollbar ">
-            <ul className="flex flex-col">
-              {links?.map((link) => (
-                <li
-                  key={link.id}
-                  className="group flex flex-col gap-2 py-5 border-t border-gray-200 hover:bg-gray-50/50 transition-colors"
-                >
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="flex flex-col overflow-hidden">
-                      <a
-                        href={`/${link.shortCode}`}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="text-md font-bold text-blue-base hover:underline truncate"
-                      >
-                        brev.ly/{link.shortCode}
-                      </a>
-                      <p className="text-sm text-gray-400 truncate mt-1">
-                        {link.originalUrl}
-                      </p>
-                    </div>
-
-                    <div className="flex items-center gap-3 shrink-0">
-                      <span className="text-sm text-gray-500 font-medium whitespace-nowrap">
-                        {link.accessCount} acessos
-                      </span>
-
-                      <div className="flex items-center gap-2">
-                        <Button
-                          variant="secondary"
-                          onClick={() => handleCopy(link.shortCode)}
-                          className="w-9 h-9 p-0"
-                          title="Copiar link"
+            {isLoading && (
+              <div className="flex flex-col items-center justify-center py-10 gap-2">
+                <CircleNotchIcon
+                  size={32}
+                  className="animate-spin text-blue-base"
+                />
+                <span className="text-sm text-gray-400">
+                  Carregando links...
+                </span>
+              </div>
+            )}
+            {isError && (
+              <div className="p-4 rounded-lg bg-danger/10 border border-danger/20 flex items-center gap-3">
+                <WarningCircleIcon size={20} className="text-danger" />
+                <span className="text-sm text-danger font-medium">
+                  Erro ao carregar a lista.
+                </span>
+              </div>
+            )}
+            {!isLoading && isEmpty && (
+              <div className="flex flex-col items-center justify-center py-12 border-2 border-dashed border-gray-100 rounded-lg">
+                <LinkIcon
+                  size={40}
+                  weight="thin"
+                  className="text-gray-400 mb-2"
+                />
+                <p className="text-xs uppercase text-gray-400">
+                  Ainda não existem links cadastrados
+                </p>
+              </div>
+            )}
+            <div className="flex-1 overflow-y-auto pr-2 custom-scrollbar ">
+              <ul className="flex flex-col">
+                {links?.map((link) => (
+                  <li
+                    key={link.id}
+                    className="group flex flex-col gap-2 py-5 border-t border-gray-200 hover:bg-gray-50/50 transition-colors"
+                  >
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="flex flex-col overflow-hidden">
+                        <a
+                          href={`/${link.shortCode}`}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="text-md font-bold text-blue-base hover:underline truncate"
                         >
-                          <CopySimpleIcon size={18} />
-                        </Button>
+                          brev.ly/{link.shortCode}
+                        </a>
+                        <p className="text-sm text-gray-400 truncate mt-1">
+                          {link.originalUrl}
+                        </p>
+                      </div>
 
-                        <Button
-                          variant="secondary"
-                          onClick={() => handleDelete(link.id)}
-                          disabled={isDeleting}
-                          className="w-9 h-9 p-0 hover:text-danger hover:ring-danger"
-                          title="Excluir link"
-                        >
-                          {isDeleting ? (
-                            <CircleNotchIcon className="animate-spin" />
-                          ) : (
-                            <TrashIcon size={18} />
-                          )}
-                        </Button>
+                      <div className="flex items-center gap-3 shrink-0">
+                        <span className="text-sm text-gray-500 font-medium whitespace-nowrap">
+                          {link.accessCount} acessos
+                        </span>
+
+                        <div className="flex items-center gap-2">
+                          <Button
+                            variant="secondary"
+                            onClick={() => handleCopy(link.shortCode)}
+                            className="w-9 h-9 p-0"
+                            title="Copiar link"
+                          >
+                            <CopySimpleIcon size={18} />
+                          </Button>
+
+                          <Button
+                            variant="secondary"
+                            onClick={() => handleDelete(link.id)}
+                            disabled={isDeleting}
+                            className="w-9 h-9 p-0 hover:text-danger hover:ring-danger"
+                            title="Excluir link"
+                          >
+                            {isDeleting ? (
+                              <CircleNotchIcon className="animate-spin" />
+                            ) : (
+                              <TrashIcon size={18} />
+                            )}
+                          </Button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </li>
-              ))}
-            </ul>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </section>
       </main>
