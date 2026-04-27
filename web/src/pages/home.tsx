@@ -155,7 +155,6 @@ export function Home() {
                 {...register("originalUrl")}
                 placeholder="www.exemplo.com.br"
                 error={errors.originalUrl?.message}
-                defaultValue={"http://google.com"}
               />
             </div>
 
@@ -167,7 +166,6 @@ export function Home() {
                 placeholder="meu-link"
                 {...register("shortCode")}
                 error={errors.shortCode?.message}
-                defaultValue={Math.random().toString(36).substring(2, 8)}
               />
             </div>
 
