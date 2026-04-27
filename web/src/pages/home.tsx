@@ -15,6 +15,7 @@ import {
 } from "@phosphor-icons/react";
 import logoImg from "../assets/Logo.svg";
 import { useToastStore } from "../store/useToastStore";
+import { env } from "../env";
 
 const createLinkFormSchema = z.object({
   originalUrl: z.url("Informe uma URL válida."),
@@ -76,7 +77,7 @@ export function Home() {
   const isEmpty = links?.length === 0;
 
   const handleCopy = (shortCode: string) => {
-    const fullUrl = `${window.location.origin}/${shortCode}`;
+    const fullUrl = `${env.VITE_FRONTEND_URL}/${shortCode}`;
     navigator.clipboard.writeText(fullUrl);
 
     addToast({
